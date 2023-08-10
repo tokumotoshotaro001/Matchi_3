@@ -70,7 +70,25 @@ void TitleScene_Update(void)
 	{
 		if (GetMousePositionX() > 120 && GetMousePositionX() < 290 && GetMousePositionY() > 260 && GetMousePositionY() < 315)
 		{
+			Change_Scene(E_GAMEMAIN);
 
+			StopSoundMem(TitleBGM);
+		}
+		if (GetMousePositionX() > 120 && GetMousePositionX() < 220 && GetMousePositionY() > 345 && GetMousePositionY() < 400)
+		{
+			Change_Scene(E_END);
+			StopSoundMem(TitleBGM);
 		}
 	}
+}
+
+/********************************
+*タイトル画面：描画処理
+* 引数：なし
+* 戻り値：なし
+********************************/
+void TitleScene_Draw(void)
+{
+	//タイトル画面を表示
+	DrawGraph(0, 0, TitleImage, FALSE);
 }
