@@ -16,11 +16,11 @@
 
 #define SCREEN_HEIGHT (480) //スクリーンサイズ(高さ)
 
-#define SCREEN_HEIGHT (480) //スクリーンサイズ(高さ)
+#define SCREEN_WIDTH (640) //スクリーンサイズ(幅)
 
 #define SCREEN_COLORBIT (32) //スクリーンカラービット
 
-#define FONT_SIZE (32) //文字サイズ
+#define FONT_SIZE (20) //文字サイズ
 
 /********************************
 *型定義
@@ -38,8 +38,8 @@
 *プログラムの開始
 ********************************/
 
-int WINAPI WinMain(_in_HINSTANCE hinstance, _In_opt_HINSTANCE hPrevInstance,
-	_In_LPSTR lpCmdLine, _In_int nShowCmd)
+int WINAPI WinMain(_In_ HINSTANCE hinstance, _In_opt_ HINSTANCE hPrevInstance,
+	_In_ LPSTR lpCmdLine, _In_ int nShowCmd)
 
 {
 	//ウィンドウタイトル設定
@@ -49,39 +49,42 @@ int WINAPI WinMain(_in_HINSTANCE hinstance, _In_opt_HINSTANCE hPrevInstance,
 	ChangeWindowMode(TRUE);
 
 	//画面サイズの最大サイズ、カラービット数を設定
-	SetGraphMode(SCREEN_WIDTH, SCREEN_HEGHT, SCREEN_COLORBIT);
+	SetGraphMode(SCREEN_WIDTH, SCREEN_HEIGHT, SCREEN_COLORBIT);
 	
 	//Dxライブラリ初期化処理
 	
 	//エラーが発生したら、終了する
 
-	if (SeneManager_Initialize(E_TITLE) == D_ERROR)
+	if (DxLib_Init() == D_ERROR)
 	{
 		return D_ERROR;
 	}
 	
 	//各機能の初期化処理
-	FreamControl_Initiakize(); //フレームレート制御機能
+	FreamControl_Initialize(); //フレームレート制御機能
 	Input_Initialize(); //入力制御機能
 
 	//シーンマネージャー初期化処理
 	//えらーがはっせいしたら、終了する
 	if (SceneManager_Initialize(E_TITLE) == D_ERROR)
 	{
-		return D_ERROR
+		return D_ERROR;
 	}
 
 	//描画先画面を裏にする
+	SetDrawScreen(DX_SCREEN_BACK);
+
+	//文字サイズを設定
 	SetFontSize(FONT_SIZE);
 
 	//ゲームループ
-	while (ProcessMessage() != D_ERROR && input_Escape() == FALSE)
+	while (ProcessMessage() != D_ERROR && Input_Escape() == FALSE)
 	{
 		//入力制御機能更新処理
-		Input_Upsate();
+		Input_Update();
 
 		//シーンマネージャー更新処理
-		SceneManager_Updata();
+		SceneManager_Update();
 
 		//画面クリア
 		ClearDrawScreen();
@@ -93,10 +96,10 @@ int WINAPI WinMain(_in_HINSTANCE hinstance, _In_opt_HINSTANCE hPrevInstance,
 		FreamControl_Update();
 
 		//画面の内容を表画面に反映
-		screenFlip();
+		ScreenFlip();
 	}
 	//Dxライブラリ使用の終了処理
-	DxLib_end();
+	DxLib_End();
 
 	return 0;
 

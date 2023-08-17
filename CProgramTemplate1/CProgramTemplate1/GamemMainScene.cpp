@@ -12,7 +12,7 @@
 
 #define TIMELIMIT (3600*3) //制限時間
 
-#define NUMBER_IMAGE_MAX(10) //数字画像数
+#define NUMBER_IMAGE_MAX (10) //数字画像数
 
 /********************************
 *型定義
@@ -70,13 +70,13 @@ int GameMainScene_Initialize(void)
 	if (GameCount == 0)
 	{
 		GameScore = 0; //スコアの初期化
-		GameLebel = 1; //ゲームレベルの初期化
+		GameLevel = 1; //ゲームレベルの初期化
 		Set_StageMission(3);//ミッションの初期化
 		GameCount++; //次回の設定
 	}
 	else
 	{
-		GameLebel++; //ゲームレベルの更新
+		GameLevel++; //ゲームレベルの更新
 		Set_StageMission(3); //ミッションを増やす
 	}
 	GameTime = TIMELIMIT; //制限時間の初期化
@@ -91,25 +91,25 @@ int GameMainScene_Initialize(void)
 ********************************/
 void GameMainScene_Update(void)
 {
-	swich(Get_StageState())
+	switch(Get_StageState())
 	{
-		case 0;
+	case 0:
 			SelectBlock(); //ブロックを選択する。
 			break;
 
-		case 2;
+	case 2:
 			MoveBlock(); //ブロックを移動させる。
 			break;
 
-		case 3;
+	case 3:
 			CheckBlock(); //ブロックの確認
 			break;
 
-		case 4;
+	case 4:
 			CheckClear(); //クリアチェック
 			break;
 
-		defaukt;
+		defaukt:
 			break;
 	}
 
@@ -117,7 +117,7 @@ void GameMainScene_Update(void)
 	GameTime--;
 
 	//制限時間が無くなったら、ゲームオーバーに遷移する
-	if (Gametime < 0)
+	if (GameTime < 0)
 	{
 		Change_Scene(E_GAME_OVER);
 	}
@@ -146,12 +146,20 @@ void GameMainScene_Draw(void)
 	//フェードアウト状態か？
 	if (Get_StageState() == 1)
 	{
-		FadeoutBlock(); //フェードアウトする。
+		FadeOutBlock(); //フェードアウトする。
 	}
 
 	//レベルを描画
 	do {
 		DrawRotaGraph(PosX, 80, 0.5f, 0, NumberImage[tmp_level % 10], TRUE);
+		tmp_score /= 10;
+		PosX -= 20;
+	} while (tmp_score > 0);
+
+	//スコアの描画
+	PosX = 620;
+	do {
+		DrawRotaGraph(PosX, 160, 0.3f, 0, NumberImage[tmp_score % 10], TRUE);
 		tmp_score /= 10;
 		PosX -= 20;
 	} while (tmp_score > 0);

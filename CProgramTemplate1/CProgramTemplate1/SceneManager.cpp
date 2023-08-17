@@ -39,28 +39,28 @@ int SceneManager_Initialize(GAME_MODE mode)
 	
 	//タイトル画面
 	Read_Error = TitleScene_Initialize();
-	if (Read_Erroe == D_ERROE)
+	if (Read_Error == D_ERROR)
 	{
 		return D_ERROR;
 	}
 
 	//ゲームメイン画面
 	Read_Error = GameMainScene_Initialize();
-	if (Read_Erroe == D_ERROE)
+	if (Read_Error == D_ERROR)
 	{
 		return D_ERROR;
 	}
 
 	//ゲームクリア画面
 	Read_Error = GameClearScene_Initialize();
-	if (Read_Erroe == D_ERROE)
+	if (Read_Error == D_ERROR)
 	{
 		return D_ERROR;
 	}
 
 	//ゲームオーバー画面
 	Read_Error = GameOverScene_Initialize();
-	if (Read_Erroe == D_ERROE)
+	if (Read_Error == D_ERROR)
 	{
 		return D_ERROR;
 	}
@@ -68,7 +68,7 @@ int SceneManager_Initialize(GAME_MODE mode)
 	Game_Mode = mode;
 	Next_Mode = Game_Mode;
 
-	return Read_Erroe;
+	return Read_Error;
 }
 
 /********************************
@@ -87,22 +87,22 @@ void SceneManager_Update(void)
 	//各画面の更新処理
 	switch (Game_Mode)
 	{
-		case E_TITLE
+	case E_TITLE:
 			TitleScene_Update();
 			break;
 
-		case E_GAMEMAIN;
+	case E_GAMEMAIN:
 			GameMainScene_Update();
 			break;
 
-		case E_GAME_CLEAR;
+	case E_GAME_CLEAR:
 			GameClesrScene_Update();
 			break;
 
-		case E_GAME_OVER;
-		    GameOverScene_Update();
+	case E_GAME_OVER:
+		GameOverScene_Update();
 			break;
-		default;
+		default:
 		break;
 	}
 }
@@ -117,22 +117,32 @@ void SceneManager_Draw(void)
 	//各画面の描画処理
 	switch (Game_Mode)
 	{
-		case E_TITLE
+	case E_TITLE:
 			TitleScene_Draw();
 			break;
 
-			case E_GAMEMAIN;
-				GameMainScene_Draw();
-				break;
+	case E_GAMEMAIN:
+			GameMainScene_Draw();
+			break;
 
-				case E_GAME_CLEAR;
-					GameClesrScene_Draw();
-					break;
+	case E_GAME_CLEAR:
+			GameClearScene_Draw();
+			break;
 
-					case E_GAME_OVER;
-						GameOverScene_Draw();
-						break;
-						default;
-						break;
+	case E_GAME_OVER:
+			GameOverScene_Draw();
+			break;
+	default:
+			break;
 	}
+}
+
+/********************************
+*シーン管理機能：シーン切替処理
+* 引数：変更するゲームモード
+* 戻り値：なし
+********************************/
+void Change_Scene(GAME_MODE mode)
+{
+	Next_Mode = mode;
 }
