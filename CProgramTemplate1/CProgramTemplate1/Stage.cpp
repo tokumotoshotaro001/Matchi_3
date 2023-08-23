@@ -203,7 +203,7 @@ void CreateBlock(void)
 		Check = 0;
 		for (i = 0; i < HEIGHT; i++)
 		{
-			for (i = 0; i < WIDTH; i++)
+			for (j = 0; j < WIDTH; j++)
 			{
 				if (j == 0 || j == WIDTH - 1 || i == HEIGHT - 1 || i == i == 0)
 				{
