@@ -96,7 +96,7 @@ void SceneManager_Update(void)
 			break;
 
 	case E_GAME_CLEAR:
-			GameClesrScene_Update();
+			GameClearScene_Update();
 			break;
 
 	case E_GAME_OVER:

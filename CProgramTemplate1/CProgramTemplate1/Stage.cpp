@@ -17,7 +17,7 @@
 
 #define ITEM_MAX                     (8) //アイテム最大数
 
-#define SALECT_CURSOR                (0)
+#define SELECT_CURSOR                (0)
 
 #define NEXT_CURSOR                (1)
 
@@ -264,21 +264,21 @@ void SelectBlock(void)
 	Select[SELECT_CURSOR].y = GetMousePositionX() / BLOCKSIZE;
 
 	//選択ブロックの範囲を制御
-	if (Select[SELECT_CUSOR].x < 0)
+	if (Select[SELECT_CURSOR].x < 0)
 	{
-		Select[SELECT_CUSOR].x = 0;
+		Select[SELECT_CURSOR].x = 0;
 	}
-	if (Select[SELECT_CUSOR].x > WIDTH - 3)
+	if (Select[SELECT_CURSOR].x > WIDTH - 3)
 	{
-		Select[SELECT_CUSOR].x = WIDTH - 3;
+		Select[SELECT_CURSOR].x = WIDTH - 3;
 	}
-	if (Select[SELECT_CUSOR].y < 0)
+	if (Select[SELECT_CURSOR].y < 0)
 	{
-		Select[SELECT_CUSOR].y = 0;
+		Select[SELECT_CURSOR].y = 0;
 	}
-	if (Select[SELECT_CUSOR].y > HEIGHT - 3)
+	if (Select[SELECT_CURSOR].y > HEIGHT - 3)
 	{
-		Select[SELECT_CUSOR].y = HEIGHT - 3;
+		Select[SELECT_CURSOR].y = HEIGHT - 3;
 	}
 
 	//クリックでブロックを選択
@@ -587,7 +587,7 @@ void combo_check_h(int y, int x, int* cnt, int* col)
 * 引数：なし
 * 戻り値：連鎖有無（０：なし　１：有り）
 ********************************/
-void combo_check_h(int y, int x, int* cnt, int* col)
+void combo_check_w(int y, int x, int* cnt, int* col)
 {
 	int Color = 0;
 
@@ -603,12 +603,12 @@ void combo_check_h(int y, int x, int* cnt, int* col)
 
 	if (Block[y][x+1].image == Color)
 	{
-		combo_check_h(y + 1, x, cnt, col);
+		combo_check_w(y + 1, x, cnt, col);
 	}
 
-	if (Block[y][x+1].image == Color)
+	if (Block[y][x-1].image == Color)
 	{
-		combo_check_h(y ,x-1, cnt, col);
+		combo_check_w(y ,x-1, cnt, col);
 	}
 }
 

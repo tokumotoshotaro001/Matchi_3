@@ -11,7 +11,7 @@
 /********************************
 *プロトタイプ宣言
 ********************************/
-int StageIntInitialize(void);
+int StageInitialize(void);
 
 void CreateBlock(void);
 
@@ -35,4 +35,4 @@ int Get_StageClearFlag(void);
 int Get_StageScore(void);
 
 
-void Set_StageMission(int Mission);
+void Set_StageMission(int mission);

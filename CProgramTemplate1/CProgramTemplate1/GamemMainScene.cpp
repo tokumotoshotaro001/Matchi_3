@@ -61,7 +61,7 @@ int GameMainScene_Initialize(void)
 	{
 		if (NumberImage[i] == D_ERROR)
 		{
-			ret = D_ERROE;
+			ret = D_ERROR;
 			break;
 		}
 	}

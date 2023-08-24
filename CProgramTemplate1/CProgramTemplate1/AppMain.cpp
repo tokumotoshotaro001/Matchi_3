@@ -65,7 +65,7 @@ int WINAPI WinMain(_In_ HINSTANCE hinstance, _In_opt_ HINSTANCE hPrevInstance,
 	Input_Initialize(); //入力制御機能
 
 	//シーンマネージャー初期化処理
-	//えらーがはっせいしたら、終了する
+	//エラーが発生したら、終了する
 	if (SceneManager_Initialize(E_TITLE) == D_ERROR)
 	{
 		return D_ERROR;
