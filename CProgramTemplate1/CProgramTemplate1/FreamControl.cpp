@@ -36,7 +36,7 @@ int LastTime;
 * ñﬂÇËílÅFÇ»Çµ
 ********************************/
 
-void FreamContrrol_Initialize(void)
+void FreamControl_Initialize(void)
 {
 	FreamTime = ((int)1000.0f / FREAM_RATE);
 	NowTime = 0;

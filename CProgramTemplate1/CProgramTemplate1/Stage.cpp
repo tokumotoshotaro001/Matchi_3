@@ -89,7 +89,7 @@ int StageInitialize(void)
 
 	//画像読み込み
 	LoadDivGraph("images/block.png", BLOCK_IMAGE_MAX, BLOCK_IMAGE_MAX, 1, BLOCKSIZE, BLOCKSIZE, BlockImage);
-	StageImage = LoadGraph("images/staaage.png");
+	StageImage = LoadGraph("images/stage.png");
 
 	//音源読み込み
 	ClickSE = LoadSoundMem("sounds/click_se.mp3");
@@ -212,8 +212,8 @@ void CreateBlock(void)
 				}
 				else
 				{
-					Block[i][j].flg = FALSE;
-					Block[i][j].x =(j-1)*BLOCKSIZE;
+					Block[i][j].flg = TRUE;
+					Block[i][j].x =(j - 1)*BLOCKSIZE;
 					Block[i][j].y = (j - 1) * BLOCKSIZE;
 					Block[i][j].width = BLOCKSIZE;
 					Block[i][j].height = BLOCKSIZE;
@@ -222,8 +222,7 @@ void CreateBlock(void)
 			}
 		}
 
-		for (i = 1; i < HEIGHT - 1; i++)
-		/*{
+		/*for (i = 1; i < HEIGHT - 1; i++)
 			for (j = 1; j < WIDTH - 1; j++)
 			{
 				if (Block[i][j].image == NULL)
@@ -261,7 +260,7 @@ void SelectBlock(void)
 
 	//カーソル座標の所得
 	Select[SELECT_CURSOR].x = GetMousePositionX() / BLOCKSIZE;
-	Select[SELECT_CURSOR].y = GetMousePositionX() / BLOCKSIZE;
+	Select[SELECT_CURSOR].y = GetMousePositionY() / BLOCKSIZE;
 
 	//選択ブロックの範囲を制御
 	if (Select[SELECT_CURSOR].x < 0)
@@ -318,14 +317,14 @@ void SelectBlock(void)
 		//連鎖が3つ以上か調べる。
 		Result = 0;
 		Result += combo_check(Select[NEXT_CURSOR].y + 1, Select[NEXT_CURSOR].x + 1);
-		Result += combo_check(Select[NEXT_CURSOR].y + 1, Select[NEXT_CURSOR].x + 1);
+		Result += combo_check(Select[TMP_CURSOR].y + 1, Select[TMP_CURSOR].x + 1);
 
 		//連鎖が３つ未満なら選択ブロックを元に戻す
 		if(Result == 0)
 		{
 			int TmpBlock = Block[Select[NEXT_CURSOR].y + 1][Select[NEXT_CURSOR].x + 1].image;
-			Block[Select[NEXT_CURSOR].y + 1][Select[NEXT_CURSOR].x + 1].image = Block[Select[NEXT_CURSOR].y + 1][Select[NEXT_CURSOR].x + 1].image;
-			Block[Select[NEXT_CURSOR].y + 1][Select[NEXT_CURSOR].x + 1].image = TmpBlock;
+			Block[Select[NEXT_CURSOR].y + 1][Select[NEXT_CURSOR].x + 1].image = Block[Select[TMP_CURSOR].y + 1][Select[TMP_CURSOR].x + 1].image;
+			Block[Select[TMP_CURSOR].y + 1][Select[TMP_CURSOR].x + 1].image = TmpBlock;
 		}
 		else
 		{
@@ -428,7 +427,7 @@ void MoveBlock(void)
 * 引数：なし
 * 戻り値：なし
 ********************************/
-void CheakBlock(void)
+void CheckBlock(void)
 {
 	int Result = 0;
 	int i, j;
@@ -463,7 +462,7 @@ void CheakBlock(void)
 * 備考：クリア条件フラグを０とし、各スクリーンの削除ブロックが
 * 　　　レベルよりも数が少なかったらチェック処理を中断してゲームを続行する
 ********************************/
-void CheakClear(void)
+void CheckClear(void)
 {
 	int i;
 	for (i = 0; i < ITEM_MAX; i++)
@@ -484,11 +483,31 @@ void CheakClear(void)
 /********************************
 *ステージ制御機能：ステージステータス情報取得処理
 * 引数：なし
-* 戻り値：なし
+* 戻り値：ステージのステータス情報
+********************************/
+int Get_StageState(void)
+{
+	return Stage_State;
+}
+
+/********************************
+*ステージ制御機能：ミッション情報取得処理
+* 引数：なし
+* 戻り値：ミッションがクリアしているか
 ********************************/
 int Get_StageClearFlag(void)
 {
 	return ClearFlag;
+}
+
+/********************************
+*ステージ制御機能：ミッション情報取得処理
+* 引数：なし
+* 戻り値：ミッションがクリアしているか
+********************************/
+int Get_StageScore(void)
+{
+	return Stage_Score;
 }
 
 /********************************
@@ -576,9 +595,9 @@ void combo_check_h(int y, int x, int* cnt, int* col)
 		combo_check_h(y + 1, x, cnt, col);
 	}
 
-	if (Block[y + 1][x].image == Color)
+	if (Block[y - 1][x].image == Color)
 	{
-		combo_check_h(y + 1, x, cnt, col);
+		combo_check_h(y - 1, x, cnt, col);
 	}
 }
 
@@ -603,7 +622,7 @@ void combo_check_w(int y, int x, int* cnt, int* col)
 
 	if (Block[y][x+1].image == Color)
 	{
-		combo_check_w(y + 1, x, cnt, col);
+		combo_check_w(y, x - 1, cnt, col);
 	}
 
 	if (Block[y][x-1].image == Color)

@@ -31,7 +31,7 @@ int TitleBGM;
 * 戻り値：エラー情報
 ********************************/
 
-int TitleSCene_initialize(void)
+int TitleScene_Initialize(void)
 {
 	int ret = 0;
 

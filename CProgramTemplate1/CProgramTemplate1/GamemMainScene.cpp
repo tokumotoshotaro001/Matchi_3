@@ -109,7 +109,7 @@ void GameMainScene_Update(void)
 			CheckClear(); //クリアチェック
 			break;
 
-		defaukt:
+		default:
 			break;
 	}
 
@@ -153,7 +153,7 @@ void GameMainScene_Draw(void)
 	do {
 		DrawRotaGraph(PosX, 80, 0.5f, 0, NumberImage[tmp_level % 10], TRUE);
 		tmp_score /= 10;
-		PosX -= 20;
+		PosX -= 30;
 	} while (tmp_score > 0);
 
 	//スコアの描画
