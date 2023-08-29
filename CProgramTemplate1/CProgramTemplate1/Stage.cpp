@@ -180,13 +180,6 @@ void StageDraw(void)
 	//ミッションを描画
 	SetFontSize(20);
 	DrawFormatString(590, 211,GetColor(255,255,255),"%3d", Stage_Mission);
-
-	//アイテムの取得個数を描画
-	for (int i = 0; i < ITEM_MAX; i++)
-	{
-		DrawRotaGraph(540, 245 + i * 30, 0.5f, 0, BlockImage[i + 1], TRUE, 0);
-		DrawFormatString(580, 235 + i * 30, GetColor(255,255,255), "%3d", Item[i]);
-	}
 }
 
 /********************************
@@ -205,7 +198,7 @@ void CreateBlock(void)
 		{
 			for (j = 0; j < WIDTH; j++)
 			{
-				if (j == 0 || j == WIDTH - 1 || i == HEIGHT - 1 || i == i == 0)
+				if (j == 0 || j == WIDTH - 1 || i == HEIGHT - 1 || i == 0)
 				{
 					Block[i][j].flg = FALSE;
 					Block[i][j].image = NULL;
@@ -214,7 +207,7 @@ void CreateBlock(void)
 				{
 					Block[i][j].flg = TRUE;
 					Block[i][j].x =(j - 1)*BLOCKSIZE;
-					Block[i][j].y = (j - 1) * BLOCKSIZE;
+					Block[i][j].y = (i - 1) * BLOCKSIZE;
 					Block[i][j].width = BLOCKSIZE;
 					Block[i][j].height = BLOCKSIZE;
 					Block[i][j].image = GetRand(7) + 1; //1~8の乱数
@@ -268,17 +261,17 @@ void SelectBlock(void)
 	{
 		Select[SELECT_CURSOR].x = 0;
 	}
-	if (Select[SELECT_CURSOR].x > WIDTH - 3)
+	if (Select[SELECT_CURSOR].x > WIDTH - 1)
 	{
-		Select[SELECT_CURSOR].x = WIDTH - 3;
+		Select[SELECT_CURSOR].x = WIDTH - 1;
 	}
 	if (Select[SELECT_CURSOR].y < 0)
 	{
 		Select[SELECT_CURSOR].y = 0;
 	}
-	if (Select[SELECT_CURSOR].y > HEIGHT - 3)
+	if (Select[SELECT_CURSOR].y > HEIGHT - 1)
 	{
-		Select[SELECT_CURSOR].y = HEIGHT - 3;
+		Select[SELECT_CURSOR].y = HEIGHT - 1;
 	}
 
 	//クリックでブロックを選択
@@ -311,7 +304,7 @@ void SelectBlock(void)
 	if (ClickStatus == E_SECOND)
 	{
 		TmpBlock = Block[Select[NEXT_CURSOR].y + 1][Select[NEXT_CURSOR].x + 1].image;
-		Block[Select[TMP_CURSOR].y + 1][Select[TMP_CURSOR].x + 1].image =
+		Block[Select[SELECT_CURSOR].y + 1][Select[SELECT_CURSOR].x + 1].image =
 			Block[Select[TMP_CURSOR].y + 1][Select[TMP_CURSOR].x + 1].image;
 		Block[Select[TMP_CURSOR].y + 1][Select[TMP_CURSOR].x + 1].image = TmpBlock;
 
